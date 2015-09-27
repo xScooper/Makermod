@@ -1,0 +1,309 @@
+- Shteff told me: someone speccing NOT CLIENT 0, mtele that person, then grab.
+	- Speccing someone and grabbing yourself will copy movements
+	- Fix?
+
+- LR Cody told me about spawn protection failing with effects. On some maps, like hoth2. And if SP has been moved by admins.
+	- Check it out.
+
+- mname. Add support for all commands.
+	Current progress: mmove --> Works, but needs to be more effecient.
+			  mselect --> Properly selects, 100% complete.
+			  mconnectto --> Works, connects selected object(just one), to object(s) with given parameter as name.
+					 However, if there is an issue with one of the objects, it will mess up all the following objects in the list.
+					 Fix that!
+	Add so names can be saved and loaded - DONE
+
+- didz suggested removing password in mtrace for admins. suggested /mgainpassword instead. Which would give them access without seeing password.
+  or just let admins open passworded stuff anyways, ADMIN_OBS
+
+- elec: mnameall
+
+- Shatter Light: multiple names to same object?
+
+- Venom: Custom voting system. Only certain maps etc. Thoughts: Maybe vote for a vstr command?
+
+- didz: someone who is speccing, when slapped they get locked until they spec someone.
+- Add support for mplace *34 for example. 
+
+- fix the *1 bug
+
+- Raziel suggests: Text replacement for variables. For example: Hey, come to my origin. It's: %origin% // Replaces %origin% with origin.
+	Scooper: At least something like that. Think that's what he meant? My idea: Make it so it can be used in commands as well! Make maaany!
+		 So people can use in scripts etc, for many variables! Fun!
+
+- Generate build script in client. Make a .cfg file from actions.
+
+- Elec: Make mrotateall for Z axis available? Make it so the Z axis angle gets set to direction you're facing.
+
+- Elec: mpain while mmoving
+
+- Change mgrab/mgrabbing so it doesn't snap object angle. But works with an offset which is the given angle of the object.
+
+- mmute
+
+- disallow manim in duels (toggable by admin)
+
+- scaling error for people joining. Making them unsolid kinda. Probably a weird scale which remains from earlier. Try do a scale check on players when they join.
+
+- Look into spawnprotectdistance, many reasons. Icewolf: Admin loads (loads automaticly on map start) should bypass?
+
+- Grabbing ammo thing, look into it.
+
+- mannounce/mpsay fix so \n works
+
+- mplacing ghoul2, and possibly animating them.
+
+- fix the warning before end of round to be more correct.
+
+- G_Alloc with npcs, change it
+
+- mmove, and others, option for time it takes to do the command.
+
+- fix view angles after mtele. 
+
+- mplace with angles. <-- maybe not
+
+- msoundsw working with music folder
+
+- mplace special objects, look into them.
+
+- remove permissions from session data
+
+- mtrace allow to see object/effect name
+
+- username not found, fix it
+
+- xycaleth: mlist in columns
+
+- q_strcat in mname and msetpassword and check for other places
+
+- remove save files
+
+- benji: mradar, makes object appear on radar (in vehicles etc)
+
+- Check out qboolean PlaneFromPoints in radiant. Might be useful for mrotateall
+
+- fix mdoor
+
+- fx rotate and pain at same time -> not allowed. Check it.
+
+- mmoveto -> move towards point or object.
+
+- mscaleall, fix relative positions for objects too.
+
+- mindtrick level 4, look into.
+
+- mrotate 0 X 0 while mgrabbing, fix it.
+
+- change all cvars to mm_ not g_
+
+- mgrab grabs it where it is.(option)
+
+- swoop crash with ground
+
+- pande: record original origin. http://makermod.co.cc/viewtopic.php?f=6&t=183
+
+- cvar handle out of range, new sessiondata is probably causing it.
+
+- fix msoundsw and mjumpp. just comment out the noise_index = 0
+
+- Rename mname to mgroup, make mname into rename command.
+
+- Admin chat.
+
+- Ingame mm console thing for client. Auto-completion with tab, good tips, etc.
+
+-  Spirithero: Basically It would help if there was some sort of way scripters could measure the distance between things. Also you could measure the Length, Height, Width, ect of Objects. 
+
+- Making a note: SP_misc_faller, if this is put on an ammounit or shieldunit. It will set genericValue7 to 0. Causing 0 index for sound file on clients.
+	Similar problems in: faller_touch, SP_misc_siege_item, SP_trigger_multiple,SP_trigger_once, shipboundary_touch
+
+- add automatic saving to mkillall <id/name> victims =p
+
+- MAX_CVAR_VALUE_STRING callvote too long crash 
+
+- SpIoR: Headshots. (MAYBE, low priority)
+
+- disallow " " as password for user files - done
+
+- callvote timelimit -1, disallow, and fraglimit
+
+- <TeaServ> oooh and in G_ClientCommand you should have: if ( ent->client->pers.connected != CON_CONNECTED ) { return; }
+
+- TeaServ> in mkick code, you should do a check for CON_CONNECTING and CON_CONNECTED
+<TeaServ> so you don't wait for clients to connect first before being able to kick them
+<TeaServ> so you can kick them as soon as you see them connecting
+
+- player selection for admins, abusable.
+
+- session data handle out of range
+
+- q3fill attempt, keeps setting session data. Might cause crash!
+
+- mweather constantwind - FIX IT
+
+- mkillt on startupobs crashes?
+
+- partial name match for /tell - Done?
+
+- set/setu ip messes up mstatus - Shteff / Didz told shteff.
+
+- while banned, connecting attempts fills up simultanious connections.
+
+- DUEL gametype. AND BOTS. Crashes:
+				- Brush model system, bot vs bot = crash.
+							human vs bot = sometimes crash.
+				- Normal system, bot vs bot = sometimes crash?
+						human vs bot = ?
+
+- adding simple decorations like textures/rift/cobweb - Sicmah
+
+- "silent" mode for commands, used for scripting, "server command overflow"
+
+- look into "bouncing" on objects that aren't placed perfectly.
+
+- mbreakable -> what materials? Didz
+
+- sicmah: mmark for bone/ids
+
+- mlight, use an .efx improve? Sparda/skleroviski.
+
+- mmark <name> <-- multiple mmark locations, - Sicmah
+
+//- Fix mname save code. Disallow { } and ' '. - done
+
+- mmoveto sicmah
+
+- mscale 10.25
+
+- mforbid <client id>
+
+- better wait, not influenced by fps
+
+- add SP_misc_model_breakable from SP.
+
+- fix: Ran out of vehicle pool slots. See qconsoleVEH.log
+
+- crash: 
+	<Scooper> mplace <object>
+	<Scooper> mscale 3
+	<Scooper> mdrop
+	<Scooper> mpendulum 300 600
+	<Scooper> mmove 2500
+	<Scooper> neadekvatnii_jedi - 
+
+- fix corpses not disappearing if player not respawned / destroyable. - FIXED
+
+-	<Didz> Scooper, can you debug why t1_rail takes a shitton of time to load in MM some time?
+	<Didz> Hitch warning: 99073 msec frame time
+	<Didz> 99 seconds just to load the map server-side
+	<Didz> :|
+	<Didz> i think hoth2 suffers from this too
+	<Didz> this only happens on makermod
+
+- mgrabbing toggle -> mgrabbing on / off? -> turns off on mmark... check this stuff
+
+- Didz> Scooper, user password more than 15 characters lock out accounts in Makermo
+
+- <SpioR> when a map change happens
+<SpioR> all non-users lose all perms
+<SpioR> like mplace and shet
+<SpioR> it's a 1.3 bug
+
+- increase .veh limit
+
+- msetpassword @@@plconnect, shows up as Connect to admins.
+
+-Kiryu-kun: Scoop before releasing 2.0 do me a favor and make it so you can open doors even with while riding a vehicle D:
+- Kiryu-kun: Also fix Wampa_vehicle standing anim D=
+
+- t1_rail 1GB nav file?!, probably toasts stripping function.
+
+- Falcon9101- i think the new makermod plugin v2 should have all the the items numbered from 1 up and you should be able to do a shortcut for those items like if you know the number you can type in the console something like /item num\163 and that item will appear i dont know if this is possible but that would be awesome!
+
+- SpioR: give armor -999999999
+SpioR: mplace ob;mtouchable;mkillsw
+SpioR: stand on it for a while
+SpioR: done
+
+-From: Lorand
+To: Scooper 
+:D Hi, Scooper...
+I've forgot to tell you other huge bugs on my previous message :D
+The bugs:
+"Server Capturing"
+1)do "/mmark"
+2)do "/mplace factory/catw2_b;mspawner npc jedi" as long as you can...
+3)Then do "mplacefx env/fire 0;mpain 80000 199"
+4)If you do this, you will get a frag script (10 frags per second:lol: :D ),but it's not only a frag bug... :D When you are doing this, people can't connect to the server (Error, when connecting)
+"Server Lagging"
+1)bind x "/mmarkfoot;mplace factory/catw2_b"
+2)Hold x for about 20 seconds...
+3)You will get tons of platforms...To cause serious lags, you must do fast mmoveall under the ground and then fast mmoveall on position where you have spawned catwalks...It will cause lags and ping 300-600 on the server:lol:
+4)You can stuck "Server Capturing" and "Server Lagging" to annoy your enemy's:D :D :D
+"Spawn Killer by Lorand/ExeleS"
+1) do /mplace ships/falcon2
+2) mscale 4
+3) /mdrop near the respawn
+4) /mbobbing 10 10 0 (i think)
+5) You will get a spawn killer:D lol
+:D :D So, this is some bugs, explored by Lorand :D :D :D
+
+- partial name matches for mplace and mplacefx http://makermod.net/viewtopic.php?f=6&t=352&p=4099#p4099
+
+- Sorry for spamming you again but i forgot to told you about ban avoider :D :D
+
+Q3-based games have proxy's
+To avoid ban you must:
+/setu prx ip_of_server_where_you_want_to_avoid_ban
+/connect one_of_quakeworld_proxy
+
+EXAMPLE:
+/setu prx 86.110.181.156:21000 (Spark Makermod)
+/connect qw.playground.ru:30000 (Proxy)
+When you saw *Reconnect ASAP!* /do reconnect and ban will be avoided...
+Fix it pls:D
+
+- http://forum.cosmosgaming.net/threads/basejka-bug-fixed-menu-and-set-name-have-different-character-limit.1505/ 
+
+- ClientNumberFromString <-- fix so if a player renames to a number it does the player first? maybe?
+
+- fix crash2.txt
+
+- copy paste parts of map (any part) - Commander Flayer gave me the idea by requesting placeable houses from desert siege
+
+- placeable glm models?
+
+- new placeable gun? vjun1 gun with chair o.o? - commander flayer
+
+- desann style, sicmah
+
+- <Didz> Scooper, /mmapmusic "sound/null.wav" crashes clients
+
+- <Didz> right now there's bugs with object using too
+  <Didz> you have to press twice to get a button to work first time etc
+
+- <Didz> special objects break after you mmove or mrotate them ;_;
+
+- <Didz> hoth turrets are in two pieces as well, and when you mmove or mrotate it, it only affects   the main body, not the turret head
+  <Didz> so they become detached
+
+- fix snapvectors in at least mmove and mrotate
+
+- SV_AreaEntities: MAXCOUNT
+
+
+mlistshader
+msaveremap
+user interface to find textures/shaders to use ( i guess )
+mshaderinfo <object name>
+modify texture coordinates?
+
+msaveremap
+	Need a better save system overall, time for JSON I guess.
+	Also need to limit the amount of saves people can make, and overall setting on server to decide how much is allowed. 50-75mb should be good for a while.
+	So the new account system needs to be made to keep track of things. Lots to do.
+
+- bug with session data, sess = storedsess / savedsess. teleport messes up because the lasttele value isn't 0.
+
+- add mknockback, same as mpain knockback but no damage. Suggested by GalenAltaiir

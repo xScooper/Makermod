@@ -1,0 +1,30 @@
+file
+	tr_mesh.c
+
+Function
+	R_AddMD3Surfaces
+
+line 365
+	shader = tr.shaders[ md3Shader->shaderIndex ];
+
+
+
+Concept:
+	Make it pick another shader by using a different index number.
+
+Method:
+	Introduce a new global array, each element represents the player who has that ID.
+	The array contains info on what has been remapped.
+
+	function: R_AddEntitySurfaces
+	line 1339: tr.currentModel = R_GetModelByHandle( ent->e.hModel );
+
+	If the player has remapped anything on this model, it detects that after this line.
+	Using either model name or index, most likely index. 
+	And tags another global variable to use new method.
+
+	In R_AddEntitySurfaces it goes through entities to render them.
+	RT_MODEL is the ent->e.reType this is needed for.
+
+	Before line 364, enter new method if it has been discovered to be active.
+	Replace index with new one from selected global array.

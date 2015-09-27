@@ -1,0 +1,430 @@
+Changelog
+    - Added mallowgive, a command that (by default) disallows the use of giveother command on you.
+        Prints message when you toggle it, and prints message to the user trying to giveother you.
+        Saying that the person is refusing giveother, if giveother succeeds, it is also printed who
+        giveothered what person.
+
+    - Fixed so mpain doesn't affect people dueling anymore.
+
+    - Fixed so people can start duel before 10 seconds has passed.
+
+    - Fixed so more than 2 people can have a duel at the time.
+
+    - Mtele, if not given an angle argument will now set your angle to whatever starting angle you had. 		Instead of 0.
+        Considering removing this, people use it with bind <key> "mmark;mtele" to swoop around the map 			killing people.
+
+    - Mmark now works with mmark X Y Z.
+
+    - Added mtele <id1> <id2>, teleports id2 to id1. Will also give usage print to the user if he's
+	admin. COMMAND ONLY USABLE BY PEOPLE WITH ADMIN_TELE PERMISSION.
+
+    - Fixed mmove, if activated after mrotate, it would stop the settings in mrotate. So the object
+	wouldn't rotate.
+
+    - Added mpain message, might need to change it a little though.
+	IMPORTANT: Removed it, now it just says who killed who when someone dies by mpain.
+
+    - Added mpassword, msetpassword and msetpasswordT. Haven't implanted beyond /use yet.
+	UPDATE: added so it works with mtouchable, mdoor and mplatform. Basically to make it work with the 		last two
+	I made it work with MOVER_POS1, will work with anything using that system.
+	(Will not lock up at top if a user shuts off password while on a platform, for example. It will go 		back down if user doesn't
+	have password anymore.)
+
+    - Changed mkillsw killtype to MOD_UNKNOWN
+
+    - Spawnpoints are now fully protected against objects being placed in the area directly around it.
+        Spawntraps are still possible with turrets however.
+        I should also check into making objects that have been saved on spawn, disappear when
+        reloading.
+        You can't move an object when the destination will be a spawnpoint, and neither can you stop an 		object from moving,
+        (Or adjust) when it's on the spawnpoint. Impossible to place new objects at spawn.
+
+    -### Changed to Express Edition
+
+    - Fixed some com_lines++ <-- which were uninitialized.
+
+    - Altered mattack, shouldn't cause crash now.
+
+    - Added protection against q3fill. Can turn on/off detection, and on/off autoban the fake clients.
+
+11/12/08
+    - Added in mstatus: Free NPC slots, NPCs on server. 
+
+    - With the above, I added a limit. Currently hardcoded at 50
+
+13/12/08
+    - Added command "npc" for dedicated servers, will kill all npcs on server. Will probably change the name.
+
+19/12/08
+    - Fixed NPC limit counter, so mspawners will work properly too. The limit can't be raised by exploit     	anymore.
+
+    - Added g_npcLimit, set it for an overall limit. Default 100.
+	The 100 npcs allowed will be devided upon active players on the server. (People ingame, not 	spectate) So if you've set limit to 100, and 10 people are playing, they can place 10 each.
+
+    - Added so mstatus shows how many NPCs a player has.
+
+23/12/08
+    - Added mweather (admin) to add snow on map. Currently in test stage. 
+
+    - Added remapshader function to rcon. used this with mweather to create christmas theme on server.
+
+26/12/08
+    - Added mconnectto <ID> feature.
+	Apparently there is a bug with two musable objects connected to eachother. Crashes server.
+
+27/12/08
+    - Fixed so mconnectto so that it doesn't work when:
+							- Trying to connect to itself
+							- Trying to connect to an object that is connected 
+							  to it already. (loop)
+							- Trying to connect to an object you've already 								  connected to.
+    - Fixed so mbreakable doesn't work on mpain'd objects.
+    - Fixed so mpain doesn't work on mbreakable'd objects. THIS PREVENTS EVERLASTING LOOPS THAT CRASHES 
+      SERVER.
+
+28/12/08
+    - The bug where effects are saved in configstrings, without being removed when effect isn't in use, is 
+	removed. This makes it so more than 64 different effects can be loaded on a server, as long as it's 
+	not all at one time. Error: G_FindConfigstringIndex overflow <-- Is probably mostly fixed.
+
+17/01/09 - Wow a while since i logged something here.
+    - I've actually been testing and working on things for the period, without logging it here.
+	Anyways, probably some stuff I added that I've forgotten about.
+	For now: Added protection against callvote exploit. Makermod is now immune.
+
+19/01/09
+     - Logs now use real times, (Local computer time)
+     - New logging system:
+	- NEW logs will be stored in makermod/Logs folder.
+	- Can be disabled with g_OldLog 1
+	- A new logfile for each day, name of log being "Month Day Weekday Year.log"
+		Example of a log on this date: "Jan 19 Mon 2009.log"
+
+     - Need to speed up the release due to TRA stealing WIP from toasts server:	
+    	- Added new memory handling for mplace'd and mplacefx'd entities. G_Alloc not used by these anymore.
+	Will add for more later.
+
+20/01/09
+     - Made Error: G_Spawn running out of entities a lot less likely to occur.
+     - Fixed the config removing function a little, nothing will be listed twice in configs anymore.
+     - Fixed so players will get a message saying "Max different effects hit." When 54 different effects are 	       placed. Safety margin of 10.
+     - Added g_teleDelay, so admins can set delays between teleports. Default 1000
+     - Added Health/Armor message to the centerprint message at end of duels.
+     - Added Automatic Server Message, that gives warning when it's 5 minutes left, and when it's 1 minute 
+       left. Can be turned on/off with g_serverMessages, default 1 (on).
+     - SelectedEnt function will now check if you're owner as well. This will hopefully stop bug where people         can grab eachothers objects, without admin.
+
+21/01/09
+     - Fixed allocation system to properly free memory on all needed places, gonna redo again later.
+     - Semi-finished the system that prevents the number 16 npc that will crash all windows users from being          spawned. If an npc that will crash people is attempted spawned, they will get a message about that, and        a list of models that are okay. Need to fix the message a little, + increase the limit for people who         wishes to download a client.
+
+22/01/09
+     - Fixed the last remaining parts of the Anti NPC Crash system. Works flawlessly now.
+       But I still have to add in for increased limit for clients though. Also discovered that vid_Restart            will reset the data for the users. Preventing crash.
+	NEEDS FIXING: Need to add so vehicles too are recognized by model, not name.
+
+23/01/09
+     - Fixed anti npc crash system, so that it recognizes model on vehicles too, not name.
+
+27/01/09
+     - Removed huge memory leak in LoadSizes, thanks alex! (and mmd3info).
+     - Hopefully fixed problems with trueMalloc system too!
+
+03/02/09
+     - Small report: Alex fixed the trueMalloc system, basically my array was what's causing the       	problem. -.-'
+     - Fixed two assert bugs that started happening, one where wampa cut off limbs of npcs. And one           with qirand being used with MAX_INT, not by me! :P These were fixed a little before this date   	though.
+     - Today I've fixed so that mplatform uses proper origin for the height, and won't move location   	each time it's changed, or when mmoved before usage.
+
+04/02/09
+     - Objects can now have both pain and breakable, G_Damage will no longer create a everlasting      	loop.
+     - team_CTF_Redflag/blueflag/neutralflag --> Only usable in CTF.
+
+05/02/09
+     - Tracing objects with classname ''noclass'' created infinite loop of tracing, crashes server.
+	Fixed! Object discovered bug upon: The item E-Web, on the itemlist.
+
+06/02/09
+     - Removed bug where some saves would crash server, due to Q_Strncpyz destsize 0.
+
+09/02/09
+     - Added admin logging system for many admin commands.
+
+10/02/09
+     - Can't remember what I did here
+
+13/02/09
+     - /tell now works with name and partial name.
+     - Added Anti chatflood system. Players can only say 5 messages before it kicks in, and they'll    	have to stop talking for 1 sec.
+
+14/02/09
+     - Newline in name or chat is no longer possible, forcing a second line is also not possible.
+     - .* Infront of names will turn into *, to prevent namebug causing messages to echo in console.
+
+17/02/09
+     - Invisible names no longer possible.
+     - changed from s.origin to r.currentOrigin in mmove and mmoveall for spawnprotect system
+
+19/02/09
+     - Added so passwords are saved to savefiles, version changed to 6
+
+20/02/09
+     - Added mdecryptfile and mencryptfile, for myself to use to check saved files.
+     - Added pos1to2 delta, to correctly change pos1 and pos2 used by MOVER types, when moved/grabbed.
+     - Deathturret added to list of 'npcs' that cause crash when hitting number 16. Fixed that 	means...
+
+25-28/02/09
+     - Added another protection system against q3fill, max connections from 1 IP.
+
+28/02/09
+     - Fixed an issue with spawnvars when saving objects. Explanation: Changing spawnfields to something 	smaller, would leave extra characters behind the end of the spawnstring.
+
+02/03/09
+     - Changed dueling health to 100/100, instead of 100/25, and added duelend message to console. 		Showing health and armor of winner.
+
+04/03/09
+     - Another fix to the AntiNPCCrash system, NPCs that fail will properly be added to list. Npcs that 
+	don't exist won't be added at all. I've decreased the max limit to 14, since there is an assert
+	with eventFiles aswell, and this one starts off at 1.
+	And now even if list is full you will be able to spawn all the types in the list, vehicles
+	didn't work earlier it seems, but now it does!
+
+05/03/09
+     - Included mspawner into the changes from yesterday, duh.
+
+13/03/09
+     - Fixed mspawner once and for all -.- Hopefully
+
+14/03/09 
+     - Added g_JoinMOTD, default "Welcome\nPlease type /minfo in the console for help"
+
+20/03/09
+     - Removed the FAILED TO SAVE: No objects to save. toast added.
+
+10/07/09
+	- Wow, is it really this long since i logged anything? Oh well
+	- Anyways, AGES ago I was working on mrotateall, still haven't finised it.
+		Today I've done a few things: 	Fixed the /gc bug.
+						Fixed configstring system.
+						Fixed mbobbing in spawn area.
+						Fixed loading in spawn area.
+						Fixed exiting duel by challenging 
+							someone else while in duel.
+						GOING to fix the mplatform thingy.
+						Fixed so objects can't be activated 							in spawn area.
+11/07/09
+	- Fixed the g_joinMOTD \n when startup.
+
+24/10/09
+	- Added Range Ban system, banranges.txt
+
+25/10/09
+	- Fixed bypass in G_Spawn causing crash if you spawn fast after an object is freed.
+	- Fixed mslay causing G_Spawn to run out of slots.
+	- Fixed mspawner exceeding player npc limit.
+
+29/10/09
+	- Fixed crash when using jamp.exe instead of jampded.exe to start makermod.
+		NOTICE: Engine fixes will not be loaded when using jamp.exe.
+	- Fixed so passwords no longer can be read in session data.
+	- Fixed so you can't have admin permissions without being shown as logged in.
+
+30/10/09
+	- Session data passwords are encrypted with SHA-512 hash algorithm.
+
+01/11/09
+	- Noticed that bot_minplayers changed to 18000, if the change happens again it will print to logs. 
+	  Also stopped it from actually adding bots. 
+
+06/11/09
+	- Removed/fixed noname connecting bug when joining server.
+	- Removed/fixed crash with FS_filehandle exceeding amount of files open. (Bug in ban ranges)
+
+01/12/09
+	- mmapmusic, rcon command to change music on map.
+
+05/12/09
+	- Finished ban system:
+		Default file: banranges.txt, allows banning of custom IP ranges. Example: 78.213.85.25 - 79.214.20.1
+				Seperate each range with a newline.
+		Default file: banlist.txt, allows for banning more than g_Banips does. Fill with ips you want to ban.
+				Seperate each ip with a newline.
+		g_banIps cvar still works, but will only be used if set manually by server. All functions use new system.
+	- msoundsw then mtouchable then mjumpp, no longer causes people in range of sound to crash.
+
+11/12/09
+	- Modified fix for team follow1 no client to follow, to include follow2 aswell. Even though it seems it already 	  did somehow.
+	- Disabled mslay on spectating target.
+
+22/12/09
+	- Item usage like shield and sentrygun can no longer be used to exceed max entities count.
+	- mweather fully operational.
+	
+25/12/09
+	- mremap
+
+28/12/09
+	- mmapmusic fixed, + mremap and mweather. All 3 works with rcon.
+	- musable can no longer be put on objects with trigger_push(mjumpp) trigger_push works on musable objects though.
+	- mforbid and mpermission seemed to not work when used on currently logged in user? Fixed
+	- mdest now works with x y z coordinates: mdest x y z
+	- mmove <speed-in-direction-you're-looking>
+
+26/03/10
+	- I've added some ExPhys. You can select an object (only effects for players at the time of this entry), and
+	  hold +button12. This will start the throw. And after that you can throw it around with mouse movements. 
+	  (while holding button it will be like mgrab) Or you can force push it to launch it.
+	  Effects can now bounce around etc, with full functionality as they normally do.
+
+22/05/10
+	- fixed "npc" server console / rcon command, so that it doesn't prevent server hosts using jamp.exe from using npcs.
+
+23/05/10
+	- Added mname. Name one or more objects a given name. Defers between players, so different players can have same names on their stuff.
+		Any name allowed except for a number between 0 and 1024.	
+	- mselect supports mname, you can select objects with their names. Will select entire groups if they exist.
+	- mmove supports multiple selected objects through use of the object name. 
+		mselect a group, and mmove will work on all of them.
+	- mconnectto <name> will connect your selected object (not objectS) to all objects with that name. Which you own.
+	- added mname to minfo, under WIP.
+	- mtrace shows name of object if there is one. And how many objects you got named the same.
+
+24/05/10
+	- mselect now shows a list of entities you selected when you select a group. When list gets too long it ends it with a [...], 
+	  meaning more selected than what's showing.
+	- fixed memory leak from mconnectto addition yesterday. forgot to do it yesterday xD
+	
+03/06/10
+	MARK- Changed buffer size for vtos to 64 from 32, debug version has breakpoint if it overflows. Created frequent crashes with mdest.
+
+30/06/10
+	- mweather does no longer work with partial names /mweather cl -> clear. To prevent errors with heavyrainfog not being picked.
+
+11/07/10
+	- Buffer overflow exploit in /tell fixed.
+	- "Unknown Username" / Session data bugs fixed.
+	- permissions removed from session data.
+	- userinfo values below 0x20 no longer allowed.
+	- q_strcat client crash bug prevented.
+	- mremap with values ':' '=' or '@' no longer allowed.
+
+22/07/10
+	- mrotateall fully functional.
+
+23/07/10
+	- mselect <name> crash fixed.
+	- mlistobs now shows name of object.
+	- msaveobs enabled during intermission.
+
+24/07/10
+	- \n missing in mjumpp added.
+	- fixed .* echo names properly
+	- mrotate/mgrab changed to better work for mgrab builders.
+
+23/10/10
+	- userinfo values below 0x20 bug fixed.
+	- ':' no longer allowed in usernames.
+	- mspawner+mkillsw crash bug fixed.
+	- ammounit and shieldunit missing sound client-crash fixed.
+
+20/11/10
+	- mkillall <ID/name> for ADMIN_OBS, works with partial name matches.
+	- better partial name matching for:
+		tell
+		mslay
+		mslap
+		mlistobs
+		mtele
+		mpsay
+
+22/12/10
+	- Surfaceflags initial testing success (also partly 21nd)
+	- Contents initial testing success
+	- Materials initial testing success - Partly works fine without clientside.
+
+23/12/10
+	- mname loading and saving added.
+	- mrotateall movement speed changed to match rotation speed.
+	- mattachfx <boltid>, attaches selected fx to bolt
+		fix to work by name: getBolt = trap_G2API_AddBolt(cl->ghoul2, 0, "lhand");
+		Put in release?
+
+24/12/10
+	- mattachfx completed. Works with /mattachfx <id>(attach to existing bone) 
+					OR /mattach <boneName>, creates a new bolt on given bone.
+	- fixed bug where effects go invisible if taken too far away from where it was spawned.
+	- altered npc crash loop fix
+		and added the fix to an extra location discovered.
+
+26/12/10
+	- crash with mkill on startup objects fixed.
+	- mkick and mstatus works on connecting players.
+	- mweather constantwind fixed.
+	- pain done by effects (not missiles) will no longer work in spawn area.
+27/12/10
+	- updated mremap with code from didz
+	- fixed zone and windzone in mweather, windzone doesn't seem to do anything though.
+
+12/1/11
+	- mname exploit fixed.
+	- mremap various fixes.
+	- at some point earlier than this i added a fix to mrotateall.
+	- mmute and munmute, ADMIN_MUTE is the permission, and works with ID or name/partial name.
+	- mlistmute, shows a list of muted players.
+
+14/1/11
+	- mname exploit can no longer be loaded through old saves.
+
+5/2/11
+	- msilent added, silent mode which stops print messages sent to client.
+		Works for most makermod related messages, and common cheat messages.
+		Useful for scripting! --> Avoid server command overflow.
+
+27/3/11
+	- fixed crash with ewebs
+
+3/4/11
+	- fixed an issue with G_Damage < 1 fix. 
+		Should also fix the rocket bug reported by spior.
+		At least after i added health 0 on the rockets when they die.
+		Edit: Turns out spior found a way to create a stack overflow without a loop :o
+		Fixed by only allowing 128 missiles to blow up in a chain in one frame.
+10/4/11
+	- fixed missing permissions
+
+2/9/11
+	- fixed *1 bug
+	- fixed use of quake world proxy service. 
+
+6/9/11
+	- fixed setu ip bug
+13/9/11
+	- Quickly added com_sprintf safety update posted on #jacoders by bobafett (joink)
+		Q_vsnprintf
+
+16/9/11
+	- mmark now works with mmark <id/name> (name coming from your mname selection)
+
+30/10/11
+	- fixed mban range
+
+9/6/2012
+	- fixed objects behaving weirdly after mscale. 
+	  Needed to be relinked to update abs mins/maxs and solid state for clientside prediction.
+
+18/6/2012
+	- Forgot to make entries. Been working on individual remap feature. Pretty much complete.
+	Currently only supports MD3 models. 
+	mremapobj, minfoobj, mremapgroup <-- new commands, will have names changed.
+	requires client plugin.
+
+29/6/2012
+	- added client version to mstatus, shows 0 if no client
+	- added server command mclient to check what client people have.
+
+23/8/2012
+	- mmove time variable
+	- mmoveall time variable
+	- mrotate time variable
+	- mplace <object> <angle>
+5/9/2012
+	- mmute reset on disconnect

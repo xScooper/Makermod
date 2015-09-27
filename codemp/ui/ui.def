@@ -1,0 +1,4 @@
+EXPORTS
+	vmMain
+	dllEntry
+	;UItoCG_Bridge ; [UItoCG] - Scooper
