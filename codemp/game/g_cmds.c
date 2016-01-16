@@ -15834,7 +15834,196 @@ void PerformPlayerResponses()
 #endif
 
 
+// SpioR - made ClientCommand() at least /somewhat/ readable.\
+			Also because it wouldn't compile in VS2015.
+struct command_t
+{
+	const char *cmd;
+	void (*func)(gentity_t *ent);
+} mm_cmds[] =
+{
+	{ "minfo", Cmd_minfo_f },
+	{ "help", Cmd_minfo_f },
+	{ "mattack", Cmd_mAttack_f },
+	{ "mdefend", Cmd_mDefend_f },
+	{ "mfollow", Cmd_mFollow_f },
+	{ "mtele", Cmd_mtele_f },
+	{ "mtelet", Cmd_mtelet_f },
+	{ "mtelelast", Cmd_mtelelast_f },
+	{ "mchangepass", Cmd_mChangePass_f },
+	{ "mresetpass", Cmd_mResetPass_f },
+	{ "mnewuser", Cmd_mNewUser_f },
+	{ "manim", Cmd_manim_f },
+	{ "mlistanims", Cmd_mlistanims_f },
+	{ "mpermissions", Cmd_mpermissions_f },
+	{ "mpermission", Cmd_mPermission_f },
+	{ "mforbid", Cmd_mForbid_f },
+	{ "mtelesp", Cmd_mtelesp_f },
+	#ifndef MM_RELEASE
+	{ "meffect", Cmd_mEffect_f },
+	#endif
+	{ "mslay", Cmd_mslay_f },
+	{ "mstatus", Cmd_mstatus_f },
+	{ "mlistadmins", Cmd_mlistadmins_f }, 
+	{ "mslap", Cmd_mslap_f},
+	{ "mkick", Cmd_mkick_f },
+	{ "mban", Cmd_mban_f },
+	{ "munban", Cmd_munban_f },
+	{ "mlistbans", Cmd_mlistbans_f },
+	{ "mmarktopbottom", Cmd_mMarktopbottom_f },
+	{ "mmarksides", Cmd_mMarkSides_f },
+	{ "mmarkallSides", Cmd_mMarkAllSides_f },
+	{ "mclearedges", Cmd_mClearEdges_f },
+	{ "msaveobs", Cmd_mSaveobs_f },
+	{ "msavemapobs", Cmd_mSaveMapobs_f },
+	{ "mloadobs", Cmd_mLoadObs_f },
+	{ "mlistobs", Cmd_mListobs_f },
+	{ "mtrace", Cmd_mTrace_f },
+	#ifndef MM_RELEASE
+	{ "mtesty", Cmd_mTesty_f },
+	#endif
+	{ "morigin", Cmd_mOrigin_f },
+	{ "msayorigin", Cmd_mSayOrigin_f },
+	{ "mempower", Cmd_mempower_f },
+	// This command doesn't work, sadly
+	//	else if (Q_stricmp (cmd, "mlightme") == 0)
+	//	{
+	//		Cmd_mlightme_f( ent );
+	//	}
+	{ "mscaleme", Cmd_mscaleme_f },
+	{ "mscale", Cmd_mscale_f },
+	{ "mscalet", Cmd_mScalet_f },
+	{ "mplace", Cmd_mplace_f },
+	//else if (Q_stricmp (cmd, "mplace2") == 0)
+	//{
+	//
+	//		char arg1[MAX_STRING_TOKENS];
+	//		gentity_t *newent;
+	//		vec3_t testest;
 
+	//		trap_Argv( 1, arg1, sizeof(arg1) );
+
+	//	newent = G_Spawn();
+
+	//	VectorCopy(ent->client->ps.origin, newent->s.origin);
+	//	newent->classname = "misc_model_static";
+
+	//	//newent->s.modelindex = G_ModelIndex( "*1" ); //Makermod does this... wtf
+	//	newent->s.modelindex = G_ModelIndex( va("models/map_objects/%s.md3", arg1) );
+	//	VectorSet (newent->r.mins, -64, -64, 0);
+	//	VectorSet (newent->r.maxs, 64, 64, 8);
+	//	newent->clipmask = MASK_SOLID;
+	//	newent->r.contents = MASK_SOLID;
+	//	newent->s.eType = ET_GENERAL;
+	//	VectorSet(newent->modelScale, 1, 2, 1);
+	//	
+	//	G_SetOrigin( newent, newent->s.origin );
+	//	VectorCopy( newent->s.angles, newent->s.apos.trBase );
+
+	//	trap_LinkEntity (newent);
+	//}
+	{ "mmap", Cmd_mMap_f },
+	{ "mplacefx", Cmd_mplacefx_f },
+	{ "mpain", Cmd_mPain_f },
+	{ "mbreakable", Cmd_mBreakable_f },
+	{ "mbreakableall", Cmd_mBreakableAll_f },
+	{ "mmark", Cmd_mMark_f },
+	{ "munmark", Cmd_mUnmark_f },
+	{ "mgrabbing", Cmd_mGrabbing_f },
+	{ "mmarkfoot", Cmd_mMarkfoot_f },
+	{ "mmove", Cmd_mMove_f },
+	#ifdef MM_WIP
+	{ "mbobbing", Cmd_mBobbing_f },
+	{ "mdoor", Cmd_mDoor_f },
+	{ "mbutton", Cmd_mButton_f },
+	{ "mplatform", Cmd_mPlatform_f },
+	{ "mpendulum", Cmd_mPendulum_f },
+	{ "mtelep", Cmd_mtelep_f },
+	{ "mlight", Cmd_mLight_f },
+	{ "mkillsw", Cmd_mkillsw_f },
+	{ "msoundsw", Cmd_msoundsw_f },
+	{ "mjumpsw", Cmd_mjumpsw_f },
+	{ "mtelesw", Cmd_mTelesw_f },
+	{ "mprintsw", Cmd_mprintsw_f },
+	{ "musable", Cmd_musable_f },
+	{ "mtouchable", Cmd_mtouchable_f },
+	{ "mspawner", Cmd_mspawner_f },
+	{ "mconnectto", Cmd_mconnectto_f },
+	{ "mjumpp", Cmd_mJumpp_f },
+	{ "mdest", Cmd_mDest_f },
+	{ "mrotating", Cmd_mRotating_f },
+	{ "mallowgive", Cmd_mAllowGive_f },
+	{ "mpassword", Cmd_mPassword_f },
+	{ "msetpassword", Cmd_mSetPassword_f },
+	{ "msetpasswordt", Cmd_mSetPasswordT_f },
+	#ifndef MM_RELEASE
+	{ "mclip", Cmd_mClip_f },
+	{ "mclasst", Cmd_mClasst_f },
+	{ "mdraw", Cmd_mdraw_f },
+	{ "mmd3info", Cmd_mMD3Info_f },
+	{ "mpclass", Cmd_mPClass_f },
+	{ "mpspecial", Cmd_mpspecial_f },
+	{ "mpushable", Cmd_mPushable_f },
+	{ "msaberlen", Cmd_mSaberLength_f },
+	{ "mset", Cmd_mSet_f },
+#endif
+#endif
+	{ "mweather", Cmd_mWeather_f },
+	{ "mremap", Cmd_mRemap_f },
+	{ "mmapmusic", Cmd_mMapMusic_f },
+	{ "mmoveall", Cmd_mMoveAll_f },
+	{ "mrotateall", Cmd_mRotateAll_f },
+	{ "msaveedges", Cmd_mSaveEdges_f },
+	{ "mkillt", Cmd_mKillt_f },
+	{ "mkillall", Cmd_mKillAll_f },
+	{ "mkill", Cmd_mKill_f },
+	{ "mremove", Cmd_mKill_f },
+	{ "mselect", Cmd_mselect_f },
+	{ "mgrabt", Cmd_mgrabt_f },
+#ifndef MM_RELEASE
+#ifdef MM_THROW
+	{ "mthrow_t", Cmd_mthrow_f },
+#endif
+#endif
+	{ "mgrab", Cmd_mgrab_f },
+	{ "marm", Cmd_marm_f },
+	{ "mdrop", Cmd_mDrop_f },
+	{ "mrotate", Cmd_mRotate_f },
+	{ "mlist", Cmd_mList_f },
+	{ "mlistsnd", Cmd_mListsnd_f },
+	{ "mlistfx", Cmd_mlistfx_f },
+	{ "mlistso", Cmd_mlistso_f },
+	// [RemapObj]
+	{ "mshaderinfo", Cmd_mShaderInfo_f },
+	{ "mshader", Cmd_mSetShader_f },
+	{ "mshadergroup", Cmd_mShaderGroup_f },
+//	{ "mmClientVersion", MMS_ConfirmClientVersion }
+	// [RemapObj] end
+	{ "god", Cmd_God_f},
+	{ "notarget", Cmd_Notarget_f },
+	{ "noclip", Cmd_Noclip_f },
+	{ "kill", Cmd_Kill_f },
+	{ "teamtask", Cmd_TeamTask_f },
+	{ "levelshot", Cmd_LevelShot_f },
+	{ "follow", Cmd_Follow_f },
+	{ "team", Cmd_Team_f},
+	{ "duelteam", Cmd_DuelTeam_f },
+	{ "siegeclass", Cmd_SiegeClass_f },
+	{ "forcechanged", Cmd_ForceChanged_f },
+	{ "where", Cmd_Where_f },
+	{ "callvote", Cmd_CallVote_f },
+	{ "vote", Cmd_Vote_f },
+	{ "callteamvote", Cmd_CallTeamVote_f },
+	{ "teamvote", Cmd_TeamVote_f },
+	{ "gc"
+	/*
+	if ( !HasPermission( ent, PERMISSION_TESTING ) )
+	return;*/
+	, Cmd_GameCommand_f },
+	{ "setviewpos", Cmd_SetViewpos_f },
+	//	{"stats", Cmd_Stats_f},
+
+};
 
 
 
@@ -17020,384 +17209,19 @@ void ClientCommand( int clientNum ) {
 		return;
 	}
 
-	if ( (Q_stricmp(cmd, "minfo") == 0) || (Q_stricmp(cmd, "help") == 0) )
+	int cmds = sizeof(mm_cmds) / sizeof(mm_cmds[0]);
+	for (int i = 0; i < cmds; i++)
 	{
-		Cmd_minfo_f( ent );
+		if (Q_stricmp(cmd, mm_cmds[i].cmd) == 0)
+		{
+			mm_cmds[i].func(ent);
+			return;
+		}
 	}
-	else if (Q_stricmp (cmd, "mattack") == 0)
-	{
-		Cmd_mAttack_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mdefend") == 0)
-	{
-		Cmd_mDefend_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mfollow") == 0)
-	{
-		Cmd_mFollow_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mtele") == 0)
-	{
-		Cmd_mtele_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mtelet") == 0)
-	{
-		Cmd_mtelet_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mtelelast") == 0)
-	{
-		Cmd_mtelelast_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mchangepass") == 0)
-	{
-		Cmd_mChangePass_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mresetpass") == 0)
-	{
-		Cmd_mResetPass_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mnewuser") == 0)
-	{
-		Cmd_mNewUser_f( ent );
-	}
-	else if (Q_stricmp (cmd, "manim") == 0)
-	{
-		Cmd_manim_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mlistanims") == 0)
-	{
-		Cmd_mlistanims_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mpermissions") == 0)
-	{
-		Cmd_mpermissions_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mpermission") == 0)
-	{
-		Cmd_mPermission_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mforbid") == 0)
-	{
-		Cmd_mForbid_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mtelesp") == 0)
-	{
-		Cmd_mtelesp_f( ent );
-	}
-#ifndef MM_RELEASE
-	else if (Q_stricmp (cmd, "meffect") == 0)
-	{
-		Cmd_mEffect_f( ent );
-	}
-#endif
-	else if (Q_stricmp (cmd, "mslay") == 0)
-	{
-		Cmd_mslay_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mstatus") == 0)
-	{
-		Cmd_mstatus_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mlistadmins") == 0)
-	{
-		Cmd_mlistadmins_f ( ent );
-	}
-	else if (Q_stricmp (cmd, "mslap") == 0)
-	{
-		Cmd_mslap_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mkick") == 0)
-	{
-		Cmd_mkick_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mban") == 0)
-	{
-		Cmd_mban_f( ent );
-	}
-	else if (Q_stricmp (cmd, "munban") == 0)
-	{
-		Cmd_munban_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mlistbans") == 0)
-	{
-		Cmd_mlistbans_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mmarktopbottom") == 0)
-	{
-		Cmd_mMarktopbottom_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mmarksides") == 0)
-	{
-		Cmd_mMarkSides_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mmarkallSides") == 0)
-	{
-		Cmd_mMarkAllSides_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mclearedges") == 0)
-	{
-		Cmd_mClearEdges_f( ent );
-	}
-	else if (Q_stricmp (cmd, "msaveobs") == 0)
-	{
-		Cmd_mSaveobs_f( ent );
-	}
-	else if (Q_stricmp (cmd, "msavemapobs") == 0)
-	{
-		Cmd_mSaveMapobs_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mloadobs") == 0)
-	{
-		Cmd_mLoadObs_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mlistobs") == 0)
-	{
-		Cmd_mListobs_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mtrace") == 0)
-	{
-		Cmd_mTrace_f( ent );
-	}
-#ifndef MM_RELEASE
-	else if (Q_stricmp (cmd, "mtesty") == 0)
-	{
-		Cmd_mTesty_f( ent );
-	}
-#endif
-	else if (Q_stricmp (cmd, "morigin") == 0)
-	{
-		Cmd_mOrigin_f( ent );
-	}
-	else if (Q_stricmp (cmd, "msayorigin") == 0)
-	{
-		Cmd_mSayOrigin_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mempower") == 0)
-	{
-		Cmd_mempower_f( ent );
-	}
-// This command doesn't work, sadly
-//	else if (Q_stricmp (cmd, "mlightme") == 0)
-//	{
-//		Cmd_mlightme_f( ent );
-//	}
-	else if (Q_stricmp (cmd, "mscaleme") == 0)
-	{
-		Cmd_mscaleme_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mscale") == 0)
-	{
-		Cmd_mscale_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mscalet") == 0)
-	{
-		Cmd_mScalet_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mplace") == 0)
-	{
-		Cmd_mplace_f( ent );
-	}
-	//else if (Q_stricmp (cmd, "mplace2") == 0)
-	//{
-	//
-	//		char arg1[MAX_STRING_TOKENS];
-	//		gentity_t *newent;
-	//		vec3_t testest;
 
-	//		trap_Argv( 1, arg1, sizeof(arg1) );
-
-	//	newent = G_Spawn();
-
-	//	VectorCopy(ent->client->ps.origin, newent->s.origin);
-	//	newent->classname = "misc_model_static";
-
-	//	//newent->s.modelindex = G_ModelIndex( "*1" ); //Makermod does this... wtf
-	//	newent->s.modelindex = G_ModelIndex( va("models/map_objects/%s.md3", arg1) );
-	//	VectorSet (newent->r.mins, -64, -64, 0);
-	//	VectorSet (newent->r.maxs, 64, 64, 8);
-	//	newent->clipmask = MASK_SOLID;
-	//	newent->r.contents = MASK_SOLID;
-	//	newent->s.eType = ET_GENERAL;
-	//	VectorSet(newent->modelScale, 1, 2, 1);
-	//	
-	//	G_SetOrigin( newent, newent->s.origin );
-	//	VectorCopy( newent->s.angles, newent->s.apos.trBase );
-
-	//	trap_LinkEntity (newent);
-	//}
-	else if (Q_stricmp (cmd, "mmap") == 0)
-	{
-		Cmd_mMap_f(ent);
-	}
-	else if (Q_stricmp (cmd, "mplacefx") == 0)
-	{
-		Cmd_mplacefx_f( ent );
-	}
-	else if (Q_stricmp (cmd, "msetpain") == 0)
+	if (Q_stricmp (cmd, "msetpain") == 0)
 	{
 		MM_SendMessage( clientNum, va("print \"ERROR: This command has changed names to mpain\n\"", G_GetStringEdString("MP_SVGAME", "CANNOT_TASK_INTERMISSION"), cmd ) );
-	}
-	else if (Q_stricmp (cmd, "mpain") == 0)
-	{
-		Cmd_mPain_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mbreakable") == 0)
-	{
-		Cmd_mBreakable_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mbreakableall") == 0)
-	{
-		Cmd_mBreakableAll_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mmark") == 0)
-	{
-		Cmd_mMark_f( ent );
-	}
-	else if (Q_stricmp (cmd, "munmark") == 0)
-	{
-		Cmd_mUnmark_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mgrabbing") == 0)
-	{
-		Cmd_mGrabbing_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mmarkfoot") == 0)
-	{
-		Cmd_mMarkfoot_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mmove"))
-	{
-		Cmd_mMove_f( ent );
-	}
-#ifdef MM_WIP
-	else if (!Q_stricmp(cmd, "mbobbing"))
-	{
-		Cmd_mBobbing_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mdoor"))
-	{
-		Cmd_mDoor_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mbutton"))
-	{
-		Cmd_mButton_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mplatform"))
-	{
-		Cmd_mPlatform_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mpendulum"))
-	{
-		Cmd_mPendulum_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mtelep"))
-	{
-		Cmd_mtelep_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mlight"))
-	{
-		Cmd_mLight_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mkillsw"))
-	{
-		Cmd_mkillsw_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "msoundsw"))
-	{
-		Cmd_msoundsw_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mjumpsw"))
-	{
-		Cmd_mjumpsw_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mtelesw"))
-	{
-		Cmd_mTelesw_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mprintsw"))
-	{
-		Cmd_mprintsw_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "musable"))
-	{
-		Cmd_musable_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mtouchable"))
-	{
-		Cmd_mtouchable_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mspawner"))
-	{
-		Cmd_mspawner_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mconnectto"))
-	{
-		Cmd_mconnectto_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mjumpp"))
-	{
-		Cmd_mJumpp_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mdest"))
-	{
-		Cmd_mDest_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mrotating"))
-	{
-		Cmd_mRotating_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mallowgive") == 0)
-	{
-		Cmd_mAllowGive_f( ent );
-	}
-	else if (!(Q_stricmp (cmd, "mpassword")))
-	{
-		Cmd_mPassword_f( ent );
-	}
-	else if (!(Q_stricmp (cmd, "msetpassword")))
-	{
-		Cmd_mSetPassword_f( ent );
-	}
-	else if (!(Q_stricmp (cmd, "msetpasswordt")))
-	{
-		Cmd_mSetPasswordT_f( ent );
-	}
-#ifndef MM_RELEASE
-	else if (!(Q_stricmp (cmd, "mclip")))
-	{
-		Cmd_mClip_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mclasst"))
-	{
-		Cmd_mClasst_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mdraw") == 0)
-	{
-		Cmd_mdraw_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mmd3info") == 0)
-	{
-		Cmd_mMD3Info_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mpclass") == 0)
-	{
-		Cmd_mPClass_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mpspecial"))
-	{
-		Cmd_mpspecial_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mpushable") == 0)
-	{
-		Cmd_mPushable_f( ent );
-	}
-	else if (Q_stricmp (cmd, "msaberlen") == 0)
-	{
-		Cmd_mSaberLength_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mset"))
-	{
-		Cmd_mSet_f( ent );
 	}
 	else if (!Q_stricmp(cmd, "mwrite"))
 	{
@@ -17415,129 +17239,13 @@ void ClientCommand( int clientNum ) {
 			TryGrapple(ent);
 		}
 	}
-#endif
-#endif
-	else if (Q_stricmp (cmd, "mweather") == 0)
-	{
-		Cmd_mWeather_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mremap"))
-	{
-		Cmd_mRemap_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mmapmusic"))
-	{
-		Cmd_mMapMusic_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mmoveall"))
-	{
-		Cmd_mMoveAll_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mrotateall"))
-	{
-		Cmd_mRotateAll_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "msaveedges"))
-	{
-		Cmd_mSaveEdges_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mkillt"))
-	{
-		Cmd_mKillt_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mkillall"))
-	{
-		Cmd_mKillAll_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mkill"))
-	{
-		Cmd_mKill_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mremove"))
-	{
-		Cmd_mKill_f( ent );
-	}
 	else if (!Q_stricmp(cmd, "mmanipulate"))
 	{
 		MM_SendMessage( ent-g_entities, va("print \"This command has changed to /mselect\n\""));
 	}
-	else if (!Q_stricmp(cmd, "mselect"))
-	{
-		Cmd_mselect_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mgrabt"))
-	{
-		Cmd_mgrabt_f( ent );
-	}
-#ifndef MM_RELEASE
-#ifdef MM_THROW
-	else if (!Q_stricmp(cmd, "mthrow_t"))
-	{
-		Cmd_mthrow_f( ent );
-	}
-#endif
-#endif
-	else if (!Q_stricmp(cmd, "mgrab"))
-	{
-		Cmd_mgrab_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "marm"))
-	{
-		Cmd_marm_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mdrop"))
-	{
-		Cmd_mDrop_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mrotate"))
-	{
-		Cmd_mRotate_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mlist"))
-	{
-		Cmd_mList_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mlistsnd"))
-	{
-		Cmd_mListsnd_f( ent );
-	}
-	else if (!Q_stricmp(cmd, "mlistfx"))
-	{
-		Cmd_mlistfx_f( ent );
-	}
 	else if (!Q_stricmp(cmd, "mlistother"))
 	{
 		MM_SendMessage( ent-g_entities, va("print \"This command has changed to /mlistso\n\""));
-	}
-	else if (!Q_stricmp(cmd, "mlistso"))
-	{
-		Cmd_mlistso_f( ent );
-	}
-	// [RemapObj]
-	else if (Q_stricmp (cmd, "mshaderinfo") == 0)
-	{
-		Cmd_mShaderInfo_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mshader") == 0)
-	{
-		Cmd_mSetShader_f( ent );
-	}
-	else if (Q_stricmp (cmd, "mshadergroup") == 0)
-	{
-		Cmd_mShaderGroup_f( ent );
-	}
-	else if( Q_stricmp( cmd, "mmClientVersion") == 0)
-	{
-		MMS_ConfirmClientVersion( ent );
-	}
-	// [RemapObj] end
-	else if (Q_stricmp (cmd, "give") == 0)
-	{
-		Cmd_Give_f (ent, 0);
-	}
-	else if (Q_stricmp (cmd, "giveother") == 0)
-	{ //for debugging pretty much
-		Cmd_Give_f (ent, 1);
 	}
 	else if (Q_stricmp (cmd, "mnod") == 0)
 	{
@@ -17784,57 +17492,22 @@ void ClientCommand( int clientNum ) {
 		AM_Test( ent );
 #endif
 
-	else if (Q_stricmp (cmd, "god") == 0)
-		Cmd_God_f (ent);
-	else if (Q_stricmp (cmd, "notarget") == 0)
-		Cmd_Notarget_f (ent);
-	else if (Q_stricmp (cmd, "noclip") == 0)
-		Cmd_Noclip_f (ent);
 	else if ( Q_stricmp( cmd, "NPC" ) == 0 &&( ent->client->sess.permissions & PERMISSION_NPC_SPAWN || ent->client->sess.permissions & PERMISSION_NPC_ADMIN || CheatsOk(ent)) )
 	{
 		Cmd_NPC_f( ent );
 	}
-	else if (Q_stricmp (cmd, "kill") == 0)
-		Cmd_Kill_f (ent);
-	else if (Q_stricmp (cmd, "teamtask") == 0)
-		Cmd_TeamTask_f (ent);
-	else if (Q_stricmp (cmd, "levelshot") == 0)
-		Cmd_LevelShot_f (ent);
-	else if (Q_stricmp (cmd, "follow") == 0)
-		Cmd_Follow_f (ent);
-	else if (Q_stricmp (cmd, "follownext") == 0)
-		Cmd_FollowCycle_f (ent, 1);
-	else if (Q_stricmp (cmd, "followprev") == 0)
-		Cmd_FollowCycle_f (ent, -1);
-	else if (Q_stricmp (cmd, "team") == 0)
-		Cmd_Team_f (ent);
-	else if (Q_stricmp (cmd, "duelteam") == 0)
-		Cmd_DuelTeam_f (ent);
-	else if (Q_stricmp (cmd, "siegeclass") == 0)
-		Cmd_SiegeClass_f (ent);
-	else if (Q_stricmp (cmd, "forcechanged") == 0)
-		Cmd_ForceChanged_f (ent);
-	else if (Q_stricmp (cmd, "where") == 0)
-		Cmd_Where_f (ent);
-	else if (Q_stricmp (cmd, "callvote") == 0)
-		Cmd_CallVote_f (ent);
-	else if (Q_stricmp (cmd, "vote") == 0)
-		Cmd_Vote_f (ent);
-	else if (Q_stricmp (cmd, "callteamvote") == 0)
-		Cmd_CallTeamVote_f (ent);
-	else if (Q_stricmp (cmd, "teamvote") == 0)
-		Cmd_TeamVote_f (ent);
-	else if (Q_stricmp (cmd, "gc") == 0)
-	{/*
-		if ( !HasPermission( ent, PERMISSION_TESTING ) )
-		return;*/
-		Cmd_GameCommand_f( ent );
+	else if (Q_stricmp(cmd, "give") == 0)
+	{
+		Cmd_Give_f(ent, 0);
 	}
-	else if (Q_stricmp (cmd, "setviewpos") == 0)
-		Cmd_SetViewpos_f( ent );
-//	else if (Q_stricmp (cmd, "stats") == 0)
-//		Cmd_Stats_f( ent );
-
+	else if (Q_stricmp(cmd, "giveother") == 0)
+	{ //for debugging pretty much
+		Cmd_Give_f(ent, 1);
+	}
+	else if (Q_stricmp(cmd, "follownext") == 0)
+		Cmd_FollowCycle_f(ent, 1);
+	else if (Q_stricmp(cmd, "followprev") == 0)
+		Cmd_FollowCycle_f(ent, -1);
 #ifndef MM_RELEASE
 	//for convenient powerduel testing in release
 	else if (Q_stricmp(cmd, "killother") == 0 && CheatsOk( ent ) && ( ent->client->sess.permissions & PERMISSION_SLAY ) )
